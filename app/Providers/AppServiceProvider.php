@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Task\TaskInterface;
+use App\Repositories\Task\TaskRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        App::bind(TaskInterface::class, TaskRepository::class);
     }
 }
