@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
@@ -25,5 +25,6 @@ $factory->define(App\User::class, function (Faker $faker) {
 $factory->define(App\Models\Task::class, function (Faker $faker) {
     return [
         'name' => $faker->text(15),
+        'user_id' => $faker->randomElement(App\Models\User::pluck('id')->toArray()),
     ];
 });
