@@ -5,10 +5,6 @@
 @section('content')
     <!-- Bootstrap Boilerplate... -->
     <div class="panel-body">
-        <!-- Display Validation Errors -->
-        @include('common.errors')       
-        <!-- Display Messages -->
-        @include('common.messages')
         <!-- New Task Form -->
         {!! Form::open([
             'action' => 'TaskController@store',
@@ -17,13 +13,13 @@
         ]) !!}
         <div class="form-group">
             {!! Form::label('name', trans('task.name'), [
-                    'class' => 'col-sm-3 control-label'
+                'class' => 'col-sm-3 control-label'
             ]) !!}
             <div class="col-sm-6">
             {!! Form::text('name', '', [
-                    'placeholder' => trans('task.name'),
-                    'id' => 'name',
-                    'class' => 'form-control',
+                'placeholder' => trans('task.name'),
+                'id' => 'name',
+                'class' => 'form-control',
             ]) !!}
             </div>
         </div>
