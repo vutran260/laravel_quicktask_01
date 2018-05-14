@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Requests\StoreUserRequest;
+use App\Repositories\User\UserInterface;
+use Exception;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -23,50 +27,41 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/tasks';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    protected $userRepository;
+
+    public function __construct(
+        UserInterface $userRepository
+    ) {
         $this->middleware('guest');
+        $this->userRepository = $userRepository;
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function showRegistrationForm()
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        return view('auth.register');
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
+    public function register(StoreUserRequest $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $data = $request->only([
+            'name',
+            'email',
+            'password',
         ]);
+
+        try {
+            $user = $this->userRepository->firstOrCreate($data);
+            Auth::login($user);
+
+            return redirect()
+                ->action('TaskController@index')
+                ->with('message', trans('messages.register.success'));
+        } catch (Exception $e) {
+            return redirect()
+                ->action('Auth\RegisterController@showRegistrationForm')
+                ->with('message', trans('messages.register.unsuccess'));
+        }
     }
 }
