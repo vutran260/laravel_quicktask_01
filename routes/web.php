@@ -10,5 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::resource('/tasks', 'TaskController')->middleware('auth');
 
-Route::resource('/tasks', 'TaskController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/login', 'Auth\LoginController@showLoginForm')->middleware('login');
+
+Route::get('/logout', 'Auth\LoginController@logout');

@@ -5,10 +5,6 @@
 @section('content')
     <!-- Bootstrap Boilerplate... -->
     <div class="panel-body">
-        <!-- Display Validation Errors -->
-        @include('common.errors')       
-        <!-- Display Messages -->
-        @include('common.messages')
         <!-- New Task Form -->
         {!! Form::open([
             'action' => 'TaskController@store',

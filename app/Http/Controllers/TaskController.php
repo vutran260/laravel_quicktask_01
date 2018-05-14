@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Task\TaskInterface;
+use App\Repositories\User\UserInterface;
 use App\Http\Requests\StoreTaskRequest;
 use Exception;
 
 class TaskController extends Controller
 {
     protected $taskRepository;
+    protected $userRepository;
 
     public function __construct(
-        TaskInterface $taskRepository
+        TaskInterface $taskRepository,
+        UserInterface $userRepository
     ) {
         $this->taskRepository = $taskRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -24,7 +28,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = $this->taskRepository->all();
+        $tasks = $this->userRepository->getTasksById(auth()->id());
 
         return view('pages.tasks.index', compact('tasks'));
     }
@@ -47,16 +51,19 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $value = $request->only('name');
+        $data = $request->only('name');
 
         try {
-            $this->taskRepository->create($value);
+            $this->userRepository->createTask($data);
             $message = trans('messages.create_task_success');
         } catch (Exception $e) {
+            throw $e;
             $message = trans('messages.create_task_unsuccess');
         }
 
-        return redirect()->action('TaskController@index')->with('message', $message);
+        return redirect()
+                ->action('TaskController@index')
+                ->with('message', $message);
     }
 
     /**
@@ -102,12 +109,15 @@ class TaskController extends Controller
     public function destroy($id)
     {
         try {
+            $this->authorize('destroy', $this->taskRepository->find($id));
             $this->taskRepository->delete($id);
             $message = trans('messages.delete_task_success');
         } catch (Exception $e) {
             $message = trans('messages.delete_task_unsuccess');
         }
 
-        return redirect()->action('TaskController@index')->with('message', $message);
+        return redirect()
+            ->action('TaskController@index')
+            ->with('message', $message);
     }
 }
