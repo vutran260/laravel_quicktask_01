@@ -7,4 +7,8 @@ return [
     'create_task_unsuccess' => 'Tạo mới công việc không thành công!',
     'update_task_unsuccess' => 'Cập nhật công việc không thành công!',
     'delete_task_unsuccess' => 'Xóa công việc không thành công!',
+    'login' => [
+        'unsuccess' => 'Đăng nhập không thành công!',
+        'success' => 'Đăng nhập thành công!',
+    ],
 ];

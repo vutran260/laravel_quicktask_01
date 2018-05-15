@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository implements BaseInterface
 {
-    
+
     protected $model;
 
     public function __construct($model)
@@ -21,7 +21,7 @@ abstract class BaseRepository implements BaseInterface
 
     public function all()
     {
-        return $this->model->orderBy('created_at', 'asc')->get();
+        return $this->model->orderBy('created_at', 'desc')->get();
     }
 
     public function find($id, $columns = ['*'])
@@ -33,7 +33,12 @@ abstract class BaseRepository implements BaseInterface
     {
         return $this->model->create($input);
     }
-    
+
+    public function firstOrCreate($input)
+    {
+        return $this->model->firstOrCreate($input);
+    }
+
     public function update($input, $id)
     {
         return $this->model->where('id', $id)->update($input);

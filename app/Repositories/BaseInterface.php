@@ -11,6 +11,8 @@ interface BaseInterface
 
     public function create($input);
 
+    public function firstOrCreate($input);
+
     public function update($input, $id);
 
     public function delete($id);
