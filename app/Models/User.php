@@ -37,6 +37,11 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        if (strlen($value) == 60 && preg_match('/^\$2y\$/', $value)) {
+            $newPassword = $value;
+        } else {
+            $newPassword = bcrypt($value);
+        }
+        $this->attributes['password'] = $newPassword;
     }
 }

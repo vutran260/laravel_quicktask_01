@@ -11,6 +11,7 @@
                         'action' => 'Auth\ResetPasswordController@reset',
                         'method' => 'POST',
                     ]) !!}
+                    {!! Form::hidden('token', $token) !!}
                     <div class="form-group row">
                         {!! Form::label('email', trans('user.email'), [
                                 'class' => 'col-sm-4 col-form-label text-md-right'
