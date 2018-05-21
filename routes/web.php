@@ -10,20 +10,31 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('/tasks', 'TaskController')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
+
+Route::get('/home', 'HomeController@index');
+
+Route::resource('/tasks', 'TaskController')->middleware('auth');
 
 Route::namespace('Auth')->group(function () {
     Route::get('/login', [
         'as' => 'login',
         'uses' => 'LoginController@showLoginForm',
-    ])->middleware('guest');
+    ])->middleware('login');
 
     Route::get('/logout', [
         'as' => 'logout',
         'uses' => 'LoginController@logout',
     ])->middleware('auth');
+});
+
+Route::namespace('Admin')->group(function () {
+    Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
+        Route::get('/', 'HomeController@index');
+        Route::get('/home', 'HomeController@index');
+        Route::get('/task', 'TaskController@index');
+    });
 });

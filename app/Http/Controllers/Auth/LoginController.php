@@ -55,6 +55,12 @@ class LoginController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
         ])) {
+            if (Auth::user()->isAdmin()) {
+                return redirect()
+                    ->action('Admin\TaskController@index')
+                    ->with('message', trans('messages.login.success'));
+            }
+
             return redirect()
                 ->action('TaskController@index')
                 ->with('message', trans('messages.login.success'));

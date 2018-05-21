@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect()->back();
+            return redirect()->back()->with('message', trans('messages.permission_denied'));
         }
 
         return $next($request);

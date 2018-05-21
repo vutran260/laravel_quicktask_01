@@ -30,7 +30,7 @@ class TaskController extends Controller
     {
         $tasks = $this->userRepository->getTasksById(auth()->id());
 
-        return view('pages.tasks.index', compact('tasks'));
+        return view('site.pages.tasks.list', compact('tasks'));
     }
 
     /**

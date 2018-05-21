@@ -14,5 +14,11 @@ class UsersTableSeeder extends Seeder
     {
         User::truncate();
         factory(User::class, 10)->create();
+        factory(User::class)->create([
+            'email' => 'admin@gmail.com',
+            'name' => 'Admin',
+            'password' => 'admin',
+            'level' => config('settings.level.admin'),
+        ]);
     }
 }

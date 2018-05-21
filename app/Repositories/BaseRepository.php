@@ -24,6 +24,13 @@ abstract class BaseRepository implements BaseInterface
         return $this->model->orderBy('created_at', 'desc')->get();
     }
 
+    public function paginate($limit = null, $columns = ['*'])
+    {
+        $limit = ($limit == null) ? config('settings.limit') : $limit;
+
+        return $this->model->paginate($limit, $columns);
+    }
+
     public function find($id, $columns = ['*'])
     {
         return $this->model->findOrFail($id, $columns);

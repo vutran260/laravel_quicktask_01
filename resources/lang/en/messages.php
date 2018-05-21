@@ -15,4 +15,5 @@ return [
         'unsuccess' => 'Register unsuccessfully!',
         'success' => 'Register successfully!',
     ],
+    'permission_denied' => 'Permission Denied',
 ];

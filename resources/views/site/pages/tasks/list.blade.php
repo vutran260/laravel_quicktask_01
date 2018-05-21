@@ -1,11 +1,7 @@
-<!-- resources/views/tasks.blade.php -->
-
-@extends('layouts.app')
+@extends('site.master')
 
 @section('content')
-    <!-- Bootstrap Boilerplate... -->
     <div class="panel-body">
-        <!-- New Task Form -->
         {!! Form::open([
             'action' => 'TaskController@store',
             'method' => 'POST',
@@ -30,7 +26,7 @@
         </div>
         {!! Form::close() !!}
     </div>
-    <!-- Current Tasks -->
+
     @if (count($tasks))
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -38,25 +34,20 @@
             </div>
             <div class="panel-body">
                 <table class="table table-striped task-table">
-                    <!-- Table Headings -->
                     <thead>
                         <th>{{ trans('task.numberical_order') }}</th>
                         <th>{{ trans('task.name') }}</th>
                         <th>&nbsp;</th>
                     </thead>
-                    <!-- Table Body -->
                     <tbody>
                         @foreach ($tasks as $task)
                             <tr>
-                                <!-- Task Name -->
                                 <td>
                                     <div>{{ $loop->index }}</div>
                                 </td>
-                                <!-- Task Name -->
                                 <td class="table-text">
                                     <div>{{ $task->name }}</div>
                                 </td>
-                                <!-- Delete Button -->
                                 <td>
                                 {!! Form::open([
                                     'action' => ['TaskController@destroy', $task->id],

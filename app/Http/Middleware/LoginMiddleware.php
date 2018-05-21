@@ -17,7 +17,7 @@ class LoginMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::guard()->check()) {
-            return redirect()->action('TaskController@index');
+            return redirect()->back();
         }
 
         return $next($request);
